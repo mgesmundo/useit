@@ -1,0 +1,35 @@
+{
+  "name": "useit",
+  "version": "1.0.0",
+  "description": "A readable method to load and initialize a module and use it everywhere",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mgesmundo/useit"
+  },
+  "author": {
+    "name": "Marcello Gesmundo",
+    "email": "mgesmundo@yoovant.com",
+    "url": "http://www.yoovant.com"
+  },
+  "keywords": [
+    "loader",
+    "require",
+    "init",
+    "use",
+    "module"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mgesmundo/useit/issues"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "engines": {
+    "node": ">=0.8"
+  }
+}

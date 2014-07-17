@@ -30,6 +30,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+var path = require('path');
+
 /**
  * Load a module
  *
@@ -53,7 +55,7 @@ function as(name) {
 
 function init() {
   var args = [].slice.call(arguments);
-  var mod = require(this.source);
+  var mod = require(path.resolve(this.source));
   var instance = mod;
   if ('function' === typeof mod && args.length > 0) {
     instance = mod.apply(this, args);

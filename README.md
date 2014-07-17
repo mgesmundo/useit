@@ -13,7 +13,7 @@ var mod = require('a module');
 mod.init(args);
 
 // the module is now initialized
-```javascript
+```
 
 When you need to use the module already initialized into another module, you need only to `require` it into the other module, because Node do not load it again, but gets the previous cached module:
 
@@ -22,7 +22,7 @@ When you need to use the module already initialized into another module, you nee
 var mod = require('a module');
 
 // the module is already initialized
-```javascript
+```
 
 If the required module does not have a dedicated `init` method but exports only a `function` to use for the initialization, like in this case:
 
@@ -30,7 +30,7 @@ If the required module does not have a dedicated `init` method but exports only 
 var intiMod = require('a module')(args);
 
 // the module is now initialized
-```javascript
+```
 
 you need to access `initMod` from another module. Do to this you can use another module to store all shared variables or use the Node `global` namespace or use this simple loader (see below).
 
@@ -46,7 +46,7 @@ var intiMod = useit.load('a module').init(arg1, arg2, arg3, ...);
 
 // use initMod
 
-```javascript
+```
 
 Now into all other modules you can simply use `initMod`:
 
@@ -56,7 +56,7 @@ var intiMod = useit.use('a module');
 
 // use initMod
 
-```javascript
+```
 
 Another way is this:
 
@@ -66,7 +66,7 @@ var intiMod = useit.load('./file-with-full-path').as('myModule').init(arg1, arg2
 
 // use initMod
 
-```javascript
+```
 
 and use it into another module:
 
@@ -76,7 +76,7 @@ var intiMod = useit.myModule;
 
 // use initMod
 
-```javascript
+```
 
 The latest method is also useful if you want to manage a flat global list of modules (with or without initialization needs):
 
@@ -85,7 +85,7 @@ var useit = require('useit');
 var firstModule = useit.load('./first-file-with-full-path').as('first').init();
 var secondModule = useit.load('./second-file-with-full-path').as('second').init();
 
-```javascript
+```
 
 and use them into another module:
 
@@ -94,7 +94,7 @@ var useit = require('useit');
 var firstModule = useit.first;
 var secondModule = useit.second;
 
-```javascript
+```
 
 The follow method is equivalent to previous:
 
@@ -103,7 +103,7 @@ var useit = require('useit');
 var firstModule = useit.use('first');
 var secondModule = useit.use('second');
 
-```javascript
+```
 
 
 ## Installation

@@ -105,6 +105,26 @@ var secondModule = useit.use('second');
 
 ```
 
+You can use also a relative path. In the following example, if you have a node application with this structure:
+
+```bash
+/app/
+    /lib/
+        file1.js
+        file2.js
+        loader.js
+index.js
+```
+
+you can load all files from `loader` script:
+
+```javascript
+// content of loader.js:
+var useit = require('useit');
+var firstModule = useit.load('./file1').as('first').init();
+var secondModule = useit.load('./file2').as('second').init();
+
+```
 
 ## Installation
 

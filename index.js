@@ -30,7 +30,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+var fs = require('fs');
 var path = require('path');
+var callsite = require('callsite');
 
 /**
  * Load a module
@@ -55,7 +57,15 @@ function as(name) {
 
 function init() {
   var args = [].slice.call(arguments);
-  var mod = require(path.resolve(this.source));
+  var stack = callsite();
+  var requester = stack[1].getFileName();
+  var requesterPath = path.dirname(requester);
+  var sourcePath = path.resolve(requesterPath, this.source);
+
+  if (!fs.existsSync(__dirname)) {
+    sourcePath = path.resolve(this.source);
+  }
+  var mod = require(sourcePath);
   var instance = mod;
   if ('function' === typeof mod && args.length > 0) {
     instance = mod.apply(this, args);

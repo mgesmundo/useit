@@ -70,12 +70,14 @@ function init() {
   if ('function' === typeof mod && args.length > 0) {
     instance = mod.apply(this, args);
   }
-  Object.defineProperty(Loader, this.name, {
-    get: function get() {
-      return instance;
-    },
-    enumerable: true
-  });
+  if (!Loader.hasOwnProperty(this.name)) {
+    Object.defineProperty(Loader, this.name, {
+      get: function get() {
+        return instance;
+      },
+      enumerable: true
+    });
+  }
   return instance;
 }
 
@@ -86,6 +88,7 @@ function use(name) {
 function Loader(source){
   this.source = source;
   this.name = source;
+
 }
 
 Loader.load = load;

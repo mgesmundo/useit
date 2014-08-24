@@ -1,9 +1,10 @@
 {
   "name": "useit",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A readable method to load and initialize a module and use it everywhere",
   "main": "index.js",
   "scripts": {
+    "test": "mocha test/test.js --require should --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -26,9 +27,12 @@
     "url": "https://github.com/mgesmundo/useit/issues"
   },
   "dependencies": {
+    "debug": "~1.0.4",
     "callsite": "~1.0.0"
   },
   "devDependencies": {
+    "mocha": "~1.21.4",
+    "should": "~4.0.4"
   },
   "engines": {
     "node": ">=0.8"

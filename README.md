@@ -82,8 +82,8 @@ The latest method is also useful if you want to manage a flat global list of mod
 
 ```javascript
 var useit = require('useit');
-var firstModule = useit.load('./first-file-with-full-path').as('first').init();
-var secondModule = useit.load('./second-file-with-full-path').as('second').init();
+var firstModule = useit.load('./first-file-with-full-path').as('first').init(args);
+var secondModule = useit.load('./second-file-with-full-path').as('second').init(args);
 
 ```
 
@@ -121,10 +121,29 @@ you can load all files from `loader` script:
 ```javascript
 // content of loader.js:
 var useit = require('useit');
-var firstModule = useit.load('./file1').as('first').init();
-var secondModule = useit.load('./file2').as('second').init();
+var firstModule = useit.load('./file1').as('first').init(args);
+var secondModule = useit.load('./file2').as('second').init(args);
 
 ```
+
+Since the 1.2.0 version of [useit](htts://www.npmjs.org/package/useit) is possible to load a previous required module:
+
+```javascript
+var useit = require('useit');
+var someModule = require('some-module');
+var firstModule = useit.load(someModule).as('first').init(args);
+
+```
+
+In all other modules you can use the initialized module:
+
+```javascript
+var useit = require('useit');
+var firstModule = useit.first;
+
+```
+
+__NOTE__ Only a module that exports a function is allowed.
 
 ## Installation
 

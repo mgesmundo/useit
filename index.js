@@ -33,11 +33,12 @@
 var fs = require('fs');
 var path = require('path');
 var callsite = require('callsite');
+var debug = require('debug')('useit');
 
 /**
  * Load a module
  *
- * @param {String} source The module to load
+ * @param {String|Function} source The module to load or a function returned by a required module.
  * @return {Loader} The loader instance
  * @chainable
  */
@@ -55,20 +56,43 @@ function as(name) {
   return this;
 }
 
+function _load(module) {
+  try {
+    debug('try load module using [%s]', module);
+    return require(module);
+  } catch (e) {
+    return null;
+  }
+}
+
 function init() {
   var args = [].slice.call(arguments);
   var stack = callsite();
   var requester = stack[1].getFileName();
   var requesterPath = path.dirname(requester);
-  var sourcePath = path.resolve(requesterPath, this.source);
 
-  if (!fs.existsSync(__dirname)) {
-    sourcePath = path.resolve(this.source);
+  var mod, instance;
+  if ('function' === typeof this.source) {
+    debug('load module instance');
+    mod = this.source;
+  } else {
+    var sourcePath = path.resolve(requesterPath, this.source);
+    mod = _load(sourcePath);
+    if (!mod) {
+      sourcePath = path.resolve(this.source);
+      mod = _load(sourcePath);
+    }
+    if (!mod) {
+      mod = _load(this.source);
+    }
   }
-  var mod = require(sourcePath);
-  var instance = mod;
+  if (!mod) {
+    throw new Error('unable to load module ' + this.source);
+  }
   if ('function' === typeof mod && args.length > 0) {
     instance = mod.apply(this, args);
+  } else {
+    instance = mod;
   }
   if (!Loader.hasOwnProperty(this.name)) {
     Object.defineProperty(Loader, this.name, {
@@ -88,7 +112,6 @@ function use(name) {
 function Loader(source){
   this.source = source;
   this.name = source;
-
 }
 
 Loader.load = load;

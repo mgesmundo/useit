@@ -75,6 +75,9 @@ function init() {
   if ('function' === typeof this.source) {
     debug('load module instance');
     mod = this.source;
+  } else if ('object' === typeof this.source && !!this.source) {
+    debug('load module initialized');
+    mod = this.source;
   } else {
     var sourcePath = path.resolve(requesterPath, this.source);
     mod = _load(sourcePath);

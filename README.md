@@ -143,6 +143,24 @@ var firstModule = useit.first;
 
 ```
 
+Since the 1.3.0 version is possible to load a previous initialized module without reinitialize it:
+
+```javascript
+var useit = require('useit');
+var someModule = require('some-module')(opts);
+var firstModule = useit.load(someModule).as('first').init();
+
+```
+
+In all other modules you can use the initialized module:
+
+```javascript
+var useit = require('useit');
+var firstModule = useit.first;
+
+```
+
+
 __NOTE__ Only a module that exports a function is allowed.
 
 ## Installation

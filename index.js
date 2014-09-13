@@ -30,7 +30,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-var fs = require('fs');
 var path = require('path');
 var callsite = require('callsite');
 var debug = require('debug')('useit');

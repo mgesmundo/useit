@@ -42,10 +42,32 @@ describe('useit', function() {
     useit.test.name.should.eql(mod.name);
     done();
   });
-  it('should load a module already initialized', function(done) {
+  it('should load a module already initialized without options', function(done) {
     var lmod = require('callsite')();
     var mod = useit.load(lmod).as('callsite').init();
     lmod.should.eql(mod);
+    useit.callsite.should.eql(lmod);
+    done();
+  });
+  it('should load a module already initialized with options', function(done) {
+    var lmod = require('./a')({ foo: 'bar' });
+    var mod = useit.load(lmod).as('test').init();
+    lmod.should.eql(mod);
+    useit.use('test').foo.should.eql('bar');
+    useit.test.should.eql(lmod);
+    lmod.foo.should.eql('bar');
+    done();
+  });
+  it('should throw error loading (with options) a module already initialized', function(done) {
+    useit.load(require('./a')).as('test').init({
+      name: 'test'
+    });
+    var lmod = require('./a')({ foo: 'bar' });
+    (function () {
+      useit.load(lmod).as('test').init({
+        foo: 'foo'
+      });
+    }).should.throw('unable to initialize with options a module already initialized.');
     done();
   });
 });

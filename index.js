@@ -99,17 +99,21 @@ function init() {
     debug('created instance with arguments');
     instance = mod.apply(this, args);
   } else {
-    debug('created instance');
-    instance = mod;
+    if (args.length > 0) {
+        throw new Error('unable to initialize with options a module already initialized.');
+    } else {
+      debug('use already initialized instance');
+      instance = mod;
+    }
   }
-  if (!Loader.hasOwnProperty(this.name)) {
-    Object.defineProperty(Loader, this.name, {
-      get: function get() {
-        return instance;
-      },
-      enumerable: true
-    });
-  }
+  Object.defineProperty(Loader, this.name, {
+    get: function get() {
+      debug('read "%s" config', this.name);
+      return instance;
+    }.bind(this),
+    configurable: true,
+    enumerable: true
+  });
   return instance;
 }
 

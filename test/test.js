@@ -34,10 +34,18 @@ describe('useit', function() {
     done();
   });
   it('should load a module already required', function(done) {
-    var lmod = require('callsite');
+    var lmod = require('./a');
+    var mod = useit.load(lmod).as('test').init({
+      name: 'test'
+    });
+    useit.test.name.should.eql(lmod({ name: 'test' }).name);
+    useit.test.name.should.eql(mod.name);
+    done();
+  });
+  it('should load a module already initialized', function(done) {
+    var lmod = require('callsite')();
     var mod = useit.load(lmod).as('callsite').init();
-    useit.callsite.toString().should.eql(lmod.toString());
-    useit.callsite.toString().should.eql(mod.toString());
+    lmod.should.eql(mod);
     done();
   });
 });

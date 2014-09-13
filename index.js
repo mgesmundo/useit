@@ -43,6 +43,7 @@ var debug = require('debug')('useit');
  * @chainable
  */
 function load(source) {
+  debug('load');
   return new Loader(source);
 }
 
@@ -52,6 +53,7 @@ function load(source) {
  * @chainable
  */
 function as(name) {
+  debug('as %s', name);
   this.name = name;
   return this;
 }
@@ -61,11 +63,13 @@ function _load(module) {
     debug('try load module using [%s]', module);
     return require(module);
   } catch (e) {
+    debug('error loading module [%s]', module);
     return null;
   }
 }
 
 function init() {
+  debug('init');
   var args = [].slice.call(arguments);
   var stack = callsite();
   var requester = stack[1].getFileName();
@@ -93,8 +97,10 @@ function init() {
     throw new Error('unable to load module ' + this.source);
   }
   if ('function' === typeof mod) {
+    debug('created instance with arguments');
     instance = mod.apply(this, args);
   } else {
+    debug('created instance');
     instance = mod;
   }
   if (!Loader.hasOwnProperty(this.name)) {
@@ -109,6 +115,7 @@ function init() {
 }
 
 function use(name) {
+  debug('use %s', name);
   return this[name];
 }
 

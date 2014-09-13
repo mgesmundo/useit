@@ -89,7 +89,7 @@ function init() {
   if (!mod) {
     throw new Error('unable to load module ' + this.source);
   }
-  if ('function' === typeof mod && args.length > 0) {
+  if ('function' === typeof mod) {
     instance = mod.apply(this, args);
   } else {
     instance = mod;

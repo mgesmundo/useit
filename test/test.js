@@ -1,4 +1,5 @@
 var useit = require('..');
+var should = require('should');
 
 describe('useit', function() {
   it('should load a module in current path', function(done) {
@@ -67,7 +68,14 @@ describe('useit', function() {
       useit.load(lmod).as('test').init({
         foo: 'foo'
       });
-    }).should.throw('unable to initialize with options a module already initialized.');
+    }).should.throw('unable to initialize with options a module already initialized');
+    done();
+  });
+  it('should throw error loading an already required module without specifying a name', function(done) {
+    var lmod = require('callsite')();
+    (function () {
+      useit.load(lmod).init();
+    }).should.throw();
     done();
   });
 });

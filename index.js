@@ -102,12 +102,15 @@ function init() {
   if (!mod) {
     throw new Error('unable to load module ' + this.source);
   }
+  if (!this.name) {
+    throw new Error('name required');
+  }
   if ('function' === typeof mod) {
     debug('created instance with arguments %o', args);
     instance = mod.apply(this, args);
   } else {
     if (args.length > 0) {
-        throw new Error('unable to initialize with options a module already initialized.');
+        throw new Error('unable to initialize with options a module already initialized');
     } else {
       debug('use already initialized instance');
       instance = mod;
@@ -131,7 +134,9 @@ function use(name) {
 
 function Loader(source){
   this.source = source;
-  this.name = source;
+  if ('string' === typeof source) {
+    this.name = source;
+  }
 }
 
 Loader.load = load;

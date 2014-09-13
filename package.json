@@ -4,7 +4,8 @@
   "description": "A readable method to load and initialize a module and use it everywhere",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/test.js --require should --reporter spec"
+    "test": "mocha test/test.js --reporter spec",
+    "cov": "mocha test/test.js --require blanket --reporter html-cov > test/coverage.html"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,13 @@
   },
   "devDependencies": {
     "mocha": "~1.21.4",
-    "should": "~4.0.4"
+    "should": "~4.0.4",
+    "blanket": "~1.1.6"
+  },
+  "config": {
+    "blanket": {
+      "pattern": "useit/index.js"
+    }
   },
   "engines": {
     "node": ">=0.8"

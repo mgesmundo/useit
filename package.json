@@ -27,7 +27,7 @@
     "url": "https://github.com/mgesmundo/useit/issues"
   },
   "dependencies": {
-    "debug": "~1.0.4",
+    "debug": "~2.0.0",
     "callsite": "~1.0.0"
   },
   "devDependencies": {

@@ -42,7 +42,14 @@ var debug = require('debug')('useit');
  * @chainable
  */
 function load(source) {
-  debug('load');
+  var _source = source
+    .toString()
+    .replace(/\s{2,}/g,' ')
+    .replace(/\r?\n|\r/g, '');
+  if (_source.length > 60) {
+    _source = _source.substr(0, 57) + '...';
+  }
+  debug('load "%s"', _source);
   return new Loader(source);
 }
 
@@ -52,17 +59,17 @@ function load(source) {
  * @chainable
  */
 function as(name) {
-  debug('as %s', name);
+  debug('as "%s"', name);
   this.name = name;
   return this;
 }
 
 function _load(module) {
   try {
-    debug('try load module using [%s]', module);
+    debug('try load module using "%s"', module);
     return require(module);
   } catch (e) {
-    debug('error loading module [%s]', module);
+    debug('error loading module "%s"', module);
     return null;
   }
 }
@@ -76,10 +83,10 @@ function init() {
 
   var mod, instance;
   if ('function' === typeof this.source) {
-    debug('load module instance');
+    debug('load module not initialized');
     mod = this.source;
   } else if ('object' === typeof this.source && !!this.source) {
-    debug('load module initialized');
+    debug('load module already initialized');
     mod = this.source;
   } else {
     var sourcePath = path.resolve(requesterPath, this.source);
@@ -96,7 +103,7 @@ function init() {
     throw new Error('unable to load module ' + this.source);
   }
   if ('function' === typeof mod) {
-    debug('created instance with arguments');
+    debug('created instance with arguments %o', args);
     instance = mod.apply(this, args);
   } else {
     if (args.length > 0) {
@@ -118,7 +125,7 @@ function init() {
 }
 
 function use(name) {
-  debug('use %s', name);
+  debug('use "%s" config', name);
   return this[name];
 }
 

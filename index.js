@@ -64,6 +64,19 @@ function as(name) {
   return this;
 }
 
+/**
+ * Add a function called every time a config is used
+ * @param {Function} fn The function as alert
+ * @chainable
+ */
+function alert(fn) {
+  if ('function' !== typeof fn) {
+    throw new Error('function required');
+  }
+  this.alertFn = fn;
+  return this;
+}
+
 function _load(module) {
   try {
     debug('try load module using "%s"', module);
@@ -119,6 +132,7 @@ function init() {
   Object.defineProperty(Loader, this.name, {
     get: function get() {
       debug('read "%s" config', this.name);
+      this.alertFn.call(instance);
       return instance;
     }.bind(this),
     configurable: true,
@@ -133,6 +147,7 @@ function use(name) {
 }
 
 function Loader(source){
+  this.alertFn = function noop(){};
   this.source = source;
   if ('string' === typeof source) {
     this.name = source;
@@ -142,6 +157,7 @@ function Loader(source){
 Loader.load = load;
 Loader.use = use;
 Loader.prototype.as = as;
+Loader.prototype.alert = alert;
 Loader.prototype.init = init;
 
 exports = module.exports = Loader;

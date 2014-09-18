@@ -78,4 +78,42 @@ describe('useit', function() {
     }).should.throw();
     done();
   });
+  it('should set an alert and validate', function(done) {
+    var mod = useit
+      .load('a')
+      .as('protect')
+      .alert(function () {
+        if (this.param2 !== 2) {
+          throw new Error('wrong value');
+        }
+      })
+      .init({
+        param1: 1,
+        param2: 2
+      });
+    useit.protect;
+    useit.use('protect');
+    done();
+  });
+  it('should set an alert and throws an error when fails', function(done) {
+    var mod = useit
+      .load('a')
+      .as('protect')
+      .alert(function () {
+        if (this.param2 !== 2) {
+          throw new Error('wrong value');
+        }
+      })
+      .init({
+        param1: 1,
+        param2: 3
+      });
+    (function () {
+      useit.protect;
+    }).should.throw('wrong value');
+    (function () {
+      useit.use('protect');
+    }).should.throw('wrong value');
+    done();
+  });
 });

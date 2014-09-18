@@ -163,6 +163,27 @@ var firstModule = useit.first;
 
 __NOTE__ Only a module that exports a function is allowed.
 
+
+Since the 1.4.0 version is possible to add a function as an alert called before `use` a configuration:
+
+```javascript
+var useit = require('useit');
+var someModule = require('some-module')(opts);
+var firstModule = useit
+  .load(someModule)
+  .as('first')
+  .alert(function () {
+    if (this.testProperty !== 'value') {
+      throw new Error('wrong value');
+    }
+  })
+  .init();
+
+var recallModule = useit.first; // throws an error if recallModule.testProperty !== 'value'
+```
+
+The alert function is executed in the context of the loaded module.
+
 ## Installation
 
 Install `useit` as usual:

@@ -116,4 +116,10 @@ describe('useit', function() {
     }).should.throw('wrong value');
     done();
   });
+  it('throws an error if missing module is request', function(done) {
+    (function () {
+      useit.use('missing');
+    }).should.throw('config \'missing\' not found');
+    done();
+  });
 });

@@ -143,6 +143,9 @@ function init() {
 
 function use(name) {
   debug('use "%s" config', name);
+  if (!this[name]) {
+    throw new Error('config \'' + name + '\' not found');
+  }
   return this[name];
 }
 
